@@ -1,0 +1,151 @@
+body{
+	background: grey;
+	*{
+		box-sizing: border-box;
+	}
+}
+
+.card{
+	width: 90px;
+	height: 90px;
+
+
+	&.type-game{
+		border:5px solid black;
+	}
+}
+
+#plateau{
+	position: relative;
+	float: right;
+	margin-right: 48px;
+	width: 11*90px;
+	height: 11*90px;
+	background: rgba(50,50,50,1);
+	.card{
+		position: absolute;
+
+		//color management
+		&.color-blue{
+			border-color: blue;
+		}
+		&.color-green{
+			border-color: green;
+		}
+		&.color-yellow{
+			border-color: yellow;
+		}
+		&.color-orange{
+			border-color: orange;
+		}
+		&.color-purple{
+			border-color: purple;
+		}
+		&.color-darkgreen{
+			border-color: darkgreen;
+		}
+		&.color-darkblue{
+			border-color: darkblue;
+		}
+		&.color-brown{
+			border-color: brown;
+		}
+
+		//position management
+		@for $i from 0 through 10{
+			//0 to 10
+			&.position-#{$i}{
+				left: 0;
+				bottom: $i * 90px;
+			}
+
+			//11 to 21
+			&.position-#{$i + 10}{
+				left: $i * 90px;
+				top: 0;
+			}
+
+			//21 to 31
+			&.position-#{$i + 20}{
+				right: 0;
+				top: $i * 90px;
+			}
+
+			//31 to 40
+			&.position-#{$i + 30}{
+				right: $i * 90px;
+				bottom: 0;
+			}
+		}
+
+
+	}
+}
+
+.wrapper-dice{
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 200px;
+	border: 5px solid gold;
+	background: darkgreen;
+}
+
+.wrapper-versus{
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 150px;
+	width: 500px;
+	.player{
+		width: 200px;
+		height: 100px;
+		border: 5px solid gold;
+		background: darkgreen;
+		&.left{
+			float: left;
+		}
+		&.right{
+			float: right;
+		}
+	}
+}
+
+button.start{
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 800px;
+	border: 5px solid gold;
+	background: darkgreen;
+	padding: 5px 10px;
+	font-size: 25px;
+}
+
+.piece{
+	position: absolute;
+	bottom: 45px;
+	left: 45px;
+	transform: translateX(-50%) translateY(50%);
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: red;
+}
+
+.pieceEffect-enter {
+  opacity: 0;
+}
+.pieceEffect-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.pieceEffect-exit {
+  opacity: 1;
+}
+.pieceEffect-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
