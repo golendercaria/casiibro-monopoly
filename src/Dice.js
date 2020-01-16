@@ -7,11 +7,9 @@ class Dice extends Component{
 	}
 
 	diceHandler = () => { 
-
 		let randomNumber = Math.floor(Math.random() * (6)) + 1
 		this.props.movePlayer(randomNumber)
 		this.setState({ number: randomNumber})
-
 	}
 
 	render() { 

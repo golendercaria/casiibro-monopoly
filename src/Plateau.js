@@ -5,7 +5,7 @@ import Dice from './Dice.js'
 import Versus from './Versus.js';
 import Pieces from './Pieces.js';
 
-import { TimelineMax } from 'gsap';
+import { TimelineMax, TweenMax } from 'gsap';
 
 class Plateau extends Component {
 
@@ -61,6 +61,9 @@ class Plateau extends Component {
 		//console.log("data restored")
 		//console.log(data)
 		if (data !== null) { 
+
+			console.log("RESTORATION");
+
 			//get player one
 			const playerOne = this.state.players["playerOne"]
 			playerOne.name = data.playerOne.name
@@ -71,6 +74,8 @@ class Plateau extends Component {
 			playerTwo.name = data.playerTwo.name
 			playerTwo.position = data.playerTwo.position
 
+			console.log("who is turn ", data.whoIsTurn)
+
 			this.setState({
 				isStart: data.isStart,
 				whoIsTurn: data.whoIsTurn,
@@ -78,9 +83,16 @@ class Plateau extends Component {
 					playerOne,
 					playerTwo
 				}
-			}, () => { 
+			}, () => {
 				//repositionne les pieces
-				
+				if (playerOne.position != 0) {
+					let [ bottom, left ] = [...this.getLeftAndBottomByPosition(playerOne.position - 1)]
+					TweenMax.to(playerOne.ref.current, 0, { bottom: bottom, left: left })
+				}
+				if (playerTwo.position != 0) {
+					let [ bottom, left ] = [...this.getLeftAndBottomByPosition(playerTwo.position - 1)]
+					TweenMax.to(playerTwo.ref.current, 0, { bottom: bottom, left: left })
+				}
 			})
 		}
 	}
@@ -89,6 +101,8 @@ class Plateau extends Component {
 		this.prepareCard()
 		this.restorePartie()
 	}
+
+
 	
 	//merge default card with random card
 	prepareCard() {
@@ -147,47 +161,58 @@ class Plateau extends Component {
 		this.setState({ isStart: true })
 	}
 
+	getLeftAndBottomByPosition(position) { 
+
+		let bottom = 0;
+		let left = 0;
+
+		if (position >= 0 && position <= 9) {
+			bottom = (position + 1) * 90 + 45
+			left = 45
+		} else if (position > 9 && position <= 19) {
+			bottom = 10 * 90 + 45
+			left = (position - 9) * 90 + 45
+		} else if (position > 19 && position <= 29) {
+			bottom = (29 - position) * 90 + 45
+			left = 10 * 90 + 45
+		} else if (position > 29) { 
+			bottom = 45
+			left = (40 - position) * 90 - 45
+		}
+		
+		return [bottom, left]
+	}
+
+	getBottomByPosition(position) { 
+
+	}
+
 	movePiece = (refToMove, player, nbrMove, maxMove) => {
 
-		let bottom = 0
-		let left = 0
+
 		console.log("position :", player.position)
 
-		if (player.position >= 40) { 
+		if (player.position >= 40) {
 			player.position = 0
 		}
+
+		let [ bottom, left ] = [...this.getLeftAndBottomByPosition(player.position)]
 		
 		const tl = new TimelineMax();
 
 		if (player.position >= 0 && player.position <= 9) {
-			bottom = (player.position + 1) * 90 + 45
-			left = 45
-
 			tl.to(refToMove, .1, { bottom: bottom - 45, left: left, scale: 2 });
 			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
-			
 		} else if (player.position > 9 && player.position <= 19) {
-			bottom = 10 * 90 + 45
-			left = (player.position - 9) * 90 + 45
-
 			tl.to(refToMove, .1, { bottom: bottom, left: left - 45, scale: 2 });
 			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
-
 		} else if (player.position > 19 && player.position <= 29) {
-			bottom = (29 - player.position) * 90 + 45
-			left = 10 * 90 + 45
-
 			tl.to(refToMove, .1, { bottom: bottom + 45, left: left, scale: 2 });
 			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
-
 		} else if (player.position > 29) { 
-			bottom = 45
-			left = (40 - player.position) * 90 - 45
-
 			tl.to(refToMove, .1, { bottom: bottom, left: left + 45, scale: 2 });
 			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
 		}
-
 	
 		//if( player.position )
 		const players = this.state.players
@@ -198,15 +223,18 @@ class Plateau extends Component {
 			nbrMove++
 			tl.eventCallback("onComplete", this.movePiece, [refToMove, player, nbrMove, maxMove]);
 		} else {
-			/*let whoIsTurn = ""
+			let whoIsTurn = ""
 			if (this.state.whoIsTurn == "playerOne") {
 				whoIsTurn = "playerTwo"
 			} else {
 				whoIsTurn = "playerOne"
-			}*/
+			}
 
-			this.savePartie()
-			this.setState({ players/*, whoIsTurn*/ })
+			console.log(players)
+
+			this.setState({ players, whoIsTurn }, () => { 
+				this.savePartie()
+			})
 		}
 	}
 

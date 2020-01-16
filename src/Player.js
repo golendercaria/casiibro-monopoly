@@ -2,14 +2,8 @@ import React, { Component } from 'react';
 
 class Player extends Component{
 
-
-	state = {
-		name:""
-	}
-
 	updateName = event => { 
 		this.setState({ name: event.target.value });
-		
 	}
 
 	render() { 

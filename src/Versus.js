@@ -10,7 +10,6 @@ class Versus extends Component{
 				{
 					Object.keys(this.props.players).map(
 						(player, key) => { 
-							console.log(this.props.players[player], key)
 							return <Player
 								key={"player-" + key}
 								player={ player }

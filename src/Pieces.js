@@ -3,12 +3,6 @@ import Piece from './Piece';
 
 class Pieces extends Component{
 
-	/*
-	componentDidUpdate() { 
-		console.log(this.props)
-	}
-	*/
-
 	render() { 
 
 
