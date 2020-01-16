@@ -5,16 +5,7 @@ import Dice from './Dice.js'
 import Versus from './Versus.js';
 import Pieces from './Pieces.js';
 
-import { gsap, TimelineMax } from 'gsap';
-
-/*
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';*/
-
-
-console.log(gsap);
+import { TimelineMax } from 'gsap';
 
 class Plateau extends Component {
 
@@ -24,14 +15,14 @@ class Plateau extends Component {
 		players: {
 			playerOne: {
 				display: "left",
-				name: "alex",
+				name: "",
 				walk: 0,
 				position: 0,
 				ref: createRef()
 			},
 			playerTwo: {
 				display: "right",
-				name: "lucas",
+				name: "",
 				walk: 0,
 				position: 0,
 				ref: createRef()
@@ -40,8 +31,63 @@ class Plateau extends Component {
 		whoIsTurn: "playerOne",
 	}
 
+	//let options = JSON.parse(localStorage.getItem("tetris_options"))
+
+	/*
+	componentWillUnmount() {
+		localStorage.setItem("tetris_options", JSON.stringify(this.state.options))
+		window.removeEventListener("keydown", this.keydownActions)
+	}*/
+
+	savePartie = () => { 
+		let data = {
+			playerOne: {
+				name:this.state.players.playerOne.name,
+				position:this.state.players.playerOne.position,
+			},
+			playerTwo: {
+				name:this.state.players.playerTwo.name,
+				position:this.state.players.playerTwo.position,
+			},
+			whoIsTurn: this.state.whoIsTurn,
+			isStart:this.state.isStart
+		}
+
+		localStorage.setItem("monopoly_data", JSON.stringify(data))
+	}
+
+	restorePartie = () => {
+		let data = JSON.parse(localStorage.getItem("monopoly_data"))
+		//console.log("data restored")
+		//console.log(data)
+		if (data !== null) { 
+			//get player one
+			const playerOne = this.state.players["playerOne"]
+			playerOne.name = data.playerOne.name
+			playerOne.position = data.playerOne.position
+
+			//get player two
+			const playerTwo = this.state.players["playerTwo"]
+			playerTwo.name = data.playerTwo.name
+			playerTwo.position = data.playerTwo.position
+
+			this.setState({
+				isStart: data.isStart,
+				whoIsTurn: data.whoIsTurn,
+				players: {
+					playerOne,
+					playerTwo
+				}
+			}, () => { 
+				//repositionne les pieces
+				
+			})
+		}
+	}
+
 	componentDidMount() {
 		this.prepareCard()
+		this.restorePartie()
 	}
 	
 	//merge default card with random card
@@ -142,12 +188,8 @@ class Plateau extends Component {
 			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
 		}
 
-		
-
+	
 		//if( player.position )
-
-
-		
 		const players = this.state.players
 		players[this.state.whoIsTurn].position++
 
@@ -162,90 +204,21 @@ class Plateau extends Component {
 			} else {
 				whoIsTurn = "playerOne"
 			}*/
+
+			this.savePartie()
 			this.setState({ players/*, whoIsTurn*/ })
 		}
-
-		
-
-
-		/*
-		gsap.to(refToMove, { duration: 1, css: { bottom: bottom, scale: 2 } }, 0 + nbrMove - 1)
-		gsap.to(refToMove, {
-			duration: 2,
-			css: { bottom: bottom, scale: 1 },
-			onComplete: () => {
-					if (nbrMove < maxMove) {
-						nbrMove = nbrMove + 1
-						//recursif nbrMove++
-						this.movePiece(refToMove, player, nbrMove, maxMove)
-					} else {
-						player.position += maxMove
-						let whoIsTurn = null
-						if (this.state.whoIsTurn == "playerOne") {
-							whoIsTurn = "playerTwo"
-						} else {
-							whoIsTurn = "playerOne"
-						}
-						//this.setState({ whoIsTurn })
-					}
-				}
-			},
-			2 + nbrMove - 1
-		);*/
-
 	}
 
 	movePlayer = (number) => { 
 
-		//créer une variable piece moving
-
 		console.clear()
 		
-		//console.log(this.state.whoIsTurn);
-	
 		const player = this.state.players[this.state.whoIsTurn]
 		let refToMove = player.ref.current
 
-		//console.clear()
-		//console.log(player)
-
-		//this.movePiece(refToMove, player, 1, number);
-		this.movePiece(refToMove, player, 1, 43);
-
-		/*
-		for (let i = 1; i <= number; i++) { 
-			console.log(i)
-			setTimeout(function () { console.log("time")},1000)
-		}
-
-		animPiece()*/
-		//bottom = 45 + 
-
-		//gsap.to(refToMove, { duration: 0.2, css: { bottom: 135, scale: 1.5 } })
-		//gsap.fromTo(refToMove, 0.2, {scale:1.5},{ scale:1 }, 1);
-
-		//this.setState({ player })
-
-		//animation.to(refToMove, 1,{ left: "100px" } )
-		//TweenMax(refToMove, 1, { left: "100px" }, 0)
-
-		/*
-		if (this.state.whoIsTurn == "playerOne") { 
-			console.log(this.playerOneRef)
-		}*/
-		/*
-		const players = this.state.players
-		players[this.state.whoIsTurn].walk = number
-		this.setState({ players });*/
-
-		/*
-		//order move piece
-		
-		//set state position for player
-		console.log("move player to " + number)
-		
-		console.log( this.state.whoIsTurn)
-		*/
+		this.movePiece(refToMove, player, 1, number);
+		//this.movePiece(refToMove, player, 1, 43);
 	}
 
 
