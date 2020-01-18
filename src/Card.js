@@ -15,7 +15,7 @@ class Card extends Component{
 			<div className={classes.join(" ")}>
 				{
 					(type === "start" || type === "chance" || type === "prison") ?
-						type :
+						/*type*/ "" :
 						"card"
 				}		
 			</div>

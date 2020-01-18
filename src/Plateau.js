@@ -4,6 +4,7 @@ import Card from './Card.js'
 import Dice from './Dice.js'
 import Versus from './Versus.js';
 import Pieces from './Pieces.js';
+import Rules from './Rules.js';
 
 import { TimelineMax, TweenMax } from 'gsap';
 
@@ -259,36 +260,41 @@ class Plateau extends Component {
 		}
 		
 		return (
-			<div id="plateau" ref={this.maref}>
+			<div class="monopoly">
+				
+				<Rules />
 
-				<Versus
-					players={this.state.players}
-					updatePlayerName={this.updatePlayerName} />
+				<div id="plateau" ref={this.maref}>
 
-				{
-					this.state.cards.map(
-						(card, key) => { 
-							//console.log(card)
-							return <Card
-								key={"card_" + key}
-								properties={card} />
-						}
-					)	
-				}
+					<Versus
+						players={this.state.players}
+						updatePlayerName={this.updatePlayerName} />
 
-				{
-					this.state.isStart
-						?
-							<Dice movePlayer={this.movePlayer} />						
-						:
-						<button className="start" onClick={() => this.startGame()}>Start</button>
-				}
+					{
+						this.state.cards.map(
+							(card, key) => { 
+								//console.log(card)
+								return <Card
+									key={"card_" + key}
+									properties={card} />
+							}
+						)	
+					}
 
-				{
-					this.state.isStart &&
-						<Pieces players={this.state.players}/>
-				}
+					{
+						this.state.isStart
+							?
+								<Dice movePlayer={this.movePlayer} />						
+							:
+							<button className="start" onClick={() => this.startGame()}>Start</button>
+					}
 
+					{
+						this.state.isStart &&
+							<Pieces players={this.state.players}/>
+					}
+
+				</div>
 			</div>
 		)
 

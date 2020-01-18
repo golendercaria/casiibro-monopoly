@@ -25,7 +25,7 @@ export default [
 	},
 	{
 		position: 30,
-		type:"prise"
+		type:"prison"
 	},
 	{
 		position: 35,
