@@ -108,8 +108,15 @@ class Dice extends Component{
 	render() { 
 
 		let game = this.props.currentGame
-		let url_img = process.env.PUBLIC_URL + "imagesGames/" + game
-		//let url_img = "../public/imagesGames/" + game
+
+		let url_img = null
+		//console.log(process.env)
+		if (process.env.NODE_ENV === "development") {
+			url_img = "../public/imagesGames/" + game
+			url_img = process.env.PUBLIC_URL + "/imagesGames/" + game
+		} else { 
+			url_img = process.env.PUBLIC_URL + "/imagesGames/" + game
+		}
 
 		let dice_class = (this.props.pieceIsMoving === true || this.props.pieceIsMoving === "finish") ? "separate" : ""
 

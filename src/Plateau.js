@@ -288,7 +288,9 @@ class Plateau extends Component {
 				currentGame = "card_chance.jpg"
 			} else if (defaultCases[player.position].type === "prison") {
 				currentGame = "card_prison.jpg"
-			} else { 
+			} else if ( defaultCases[player.position].type === "start") { 
+				currentGame = "card_start.jpg"
+			}else { 
 				currentGame = defaultCases[player.position].game
 			}
 
