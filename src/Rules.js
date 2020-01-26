@@ -1,8 +1,74 @@
 import React, { Component } from 'react';
 
-let colors = ["blue","green","yellow","orange","pink","darkgreen","purple","red"]
-
 class Rule extends Component{
+
+	state = {
+		colors: {
+			"blue": {
+				stack: 0,
+				parties: 0
+			},
+			"green": {
+				stack: 0,
+				parties: 0
+			},
+			"yellow": {
+				stack: 0,
+				parties: 0
+			},
+			"orange": {
+				stack: 0,
+				parties: 0
+			},
+			"pink": {
+				stack: 0,
+				parties: 0
+			},
+			"darkgreen": {
+				stack: 0,
+				parties: 0
+			},
+			"purple": {
+				stack: 0,
+				parties: 0
+			},
+			"red": {
+				stack: 0,
+				parties: 0
+			}
+		}
+	}
+
+	saveRules = () => { 
+		localStorage.setItem("monopoly_rules", JSON.stringify(this.state.colors))
+	}
+
+	restoreRules = () => { 
+		let colors = JSON.parse(localStorage.getItem("monopoly_rules"))
+		if (colors !== null ) { 
+			this.setState({colors})
+		}
+	}
+
+	componentDidMount() { 
+		this.restoreRules()
+	}
+
+	changeStack = (event, color) => { 
+		let colors = this.state.colors
+		colors[color].stack = event.target.value
+		this.setState({ colors }, () => { 
+			this.saveRules()
+		})
+	}
+
+	changeParties = (event, color) => { 
+		let colors = this.state.colors
+		colors[color].parties = event.target.value
+		this.setState({ colors }, () => { 
+			this.saveRules()
+		})
+	}
 
 	render() { 
 		
@@ -10,12 +76,27 @@ class Rule extends Component{
 			<div className="wrapper-rule">
 				<div className="wrapper-jeton">
 					{
-						colors.map((color, key) => { 
+						Object.keys(this.state.colors).map((color, key) => { 
 							return <div
 								className={"jeton " + color}
 								key={"color_" + key}
 							>
-								<input type="text" value="" />
+								<input
+									className="stack"
+									type="text"
+									value={this.state.colors[color].stack}
+									onChange={ (e) => this.changeStack(e, color) }
+								/>
+
+								<input
+									className="parties"
+									type="text"
+									value={this.state.colors[color].parties}
+									onChange={ (e) => this.changeParties(e, color) }
+								/>
+
+								
+								
 							</div>
 						})
 					}

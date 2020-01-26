@@ -4,7 +4,7 @@ import Card from './Card.js'
 import Dice from './Dice.js'
 import Versus from './Versus.js';
 import Pieces from './Pieces.js';
-//import Rules from './Rules.js';
+import Rules from './Rules.js';
 
 import gsap from 'gsap';
 
@@ -334,7 +334,7 @@ class Plateau extends Component {
 		return (
 			<div className="monopoly">
 				
-				{/*<Rules />*/}
+				{<Rules />}
 
 				<div id="plateau" ref={this.maref}>
 

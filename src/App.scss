@@ -293,6 +293,7 @@ button.start{
 	margin-left: 30px;
 	width: 210px;
 	.jeton{
+		position: relative;
 		width: 64px;
 		height: 64px;
 		border-radius: 50%;
@@ -324,12 +325,29 @@ button.start{
 		}
 		background: url("./img/jeton.png")  no-repeat center;
 		input{
-			margin-top: 10px;
-			margin-left: 80px;
-			width: 140px;
-			border: 2px dashed black;
-			background: transparent;
-			height: 40px;
+			position: absolute;
+			&.stack{
+				border: 0;
+				width: 30px;
+				height: 30px;
+				left: 16px;
+				top: 16px;
+				text-align: center;
+				font-size: 18px;
+				font-weight: 600;
+				background: transparent;
+				color: white;
+			}
+			&.parties{
+				margin-top: 10px;
+				margin-left: 80px;
+				width: 100px;
+				border: 2px dashed black;
+				background: transparent;
+				height: 40px;
+				padding-left: 10px;
+				font-size: 16px;
+			}
 		}
 	}
 }
