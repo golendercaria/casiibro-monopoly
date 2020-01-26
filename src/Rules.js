@@ -20,7 +20,7 @@ class Rule extends Component{
 				stack: 0,
 				parties: 0
 			},
-			"pink": {
+			"purple": {
 				stack: 0,
 				parties: 0
 			},
@@ -28,7 +28,7 @@ class Rule extends Component{
 				stack: 0,
 				parties: 0
 			},
-			"purple": {
+			"darkblue": {
 				stack: 0,
 				parties: 0
 			},
@@ -77,8 +77,11 @@ class Rule extends Component{
 				<div className="wrapper-jeton">
 					{
 						Object.keys(this.state.colors).map((color, key) => { 
+
+							const activeClass = (this.props.color === color) ? "active" : ""
+
 							return <div
-								className={"jeton " + color}
+								className={"jeton " + color + " " + activeClass}
 								key={"color_" + key}
 							>
 								<input

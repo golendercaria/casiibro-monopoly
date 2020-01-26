@@ -299,6 +299,15 @@ button.start{
 		border-radius: 50%;
 		box-shadow: 3px 6px 15px 0px rgba(0,0,0,0.5);
 		margin-top: 25px;
+		//opacity: 0.3;
+		filter: grayscale(1);
+		transition: filter 0.5s;
+		&.active{
+			filter: grayscale(0);
+		}
+		&:hover{
+			filter: grayscale(0);
+		}
 		&.blue{
 			background-color: #1cbbf6;
 		}
@@ -311,17 +320,17 @@ button.start{
 		&.orange{
 			background-color: #ff7b00;
 		}
-		&.pink{
-			background-color: #ff4db9;
+		&.purple{
+			background-color: #8500ff;
 		}
 		&.darkgreen{
 			background-color: #00582d;
 		}
-		&.purple{
-			background-color: #8500ff;
+		&.darkblue{
+			background-color: #000955;
 		}
 		&.red{
-			background-color: #8e0000;
+			background-color: #ff0000;
 		}
 		background: url("./img/jeton.png")  no-repeat center;
 		input{

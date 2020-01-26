@@ -35,6 +35,7 @@ class Plateau extends Component {
 		},
 		whoIsTurn: "playerOne",
 		currentGame: null,
+		currentColor: null,
 		pieceIsMoving:false
 	}
 
@@ -291,7 +292,9 @@ class Plateau extends Component {
 				currentGame = defaultCases[player.position].game
 			}
 
-			this.setState({ players, whoIsTurn, currentGame, pieceIsMoving: "finish" }, () => { 
+			let currentColor = defaultCases[player.position].color
+
+			this.setState({ players, whoIsTurn, currentGame, pieceIsMoving: "finish", currentColor }, () => { 
 				this.savePartie()
 			})
 		}
@@ -334,7 +337,7 @@ class Plateau extends Component {
 		return (
 			<div className="monopoly">
 				
-				{<Rules />}
+				{<Rules color={ this.state.currentColor }/>}
 
 				<div id="plateau" ref={this.maref}>
 
