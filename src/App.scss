@@ -12,21 +12,58 @@ body{
 	width: 90px;
 	height: 90px;
 
-	
-
-
+	img{
+		width: 100%;
+		height: 100%;
+	}
 
 	&.type-game{
 		//border:5px solid black;
-		&:before{
+		&:before,&:after{
 			content: "";
-			z-index: 2;
 			width: 90px;
 			height: 90px;
 			position: absolute;
 			left: 0;
 			top: 0;
 			background: url("./img/card_cadre.png");
+		}
+		&:before{
+			z-index: 2;
+			background: url("./img/card_cadre.png");
+		}
+		&:after{
+			z-index: 3;
+			opacity: 0;
+			transition: opacity 0.3;
+			transition-delay: 0.4s;
+		}
+		&.active:after{
+			opacity: 1;
+		}
+		&.color-blue:after{
+			background: url("./img/over-blue.png");
+		}
+		&.color-green:after{
+			background: url("./img/over-green.png");
+		}
+		&.color-yellow:after{
+			background: url("./img/over-yellow.png");
+		}
+		&.color-orange:after{
+			background: url("./img/over-orange.png");
+		}
+		&.color-purple:after{
+			background: url("./img/over-purple.png");
+		}
+		&.color-darkgreen:after{
+			background: url("./img/over-darkgreen.png");
+		}
+		&.color-darkblue:after{
+			background: url("./img/over-darkblue.png");
+		}
+		&.color-red:after{
+			background: url("./img/over-red.png");
 		}
 	}
 	&.type-start{
@@ -95,8 +132,8 @@ body{
 		&.color-darkblue{
 			border-color: darkblue;
 		}
-		&.color-brown{
-			border-color: brown;
+		&.color-red{
+			border-color: red;
 		}
 
 		//position management
@@ -138,6 +175,22 @@ body{
 	transform: translateX(-50%);
 	bottom: 90px;
 	background: url("./img/dice.png") no-repeat center center;
+
+	.diceWrap{
+		z-index: 2;
+	}
+	.picture{
+		position: absolute;
+		left: 32px;
+		top: 25px;
+		width: 225px;
+		height: 225px;
+		z-index: 1;
+		img{
+			width: 100%;
+			height: 100%;
+		}
+	}
 }
 
 .wrapper-versus{
@@ -153,8 +206,7 @@ body{
 		input{
 			background: transparent;
 			float: right;
-			margin-right: 65px;
-			margin-top: 18px;
+
 			width: 200px;
 			height: 30px;
 			border: 0;
@@ -164,11 +216,27 @@ body{
 			color: gold;
 			text-transform: uppercase;
 		}
+		input.name{
+			text-align: center;
+			margin-right: 65px;
+			margin-top: 18px;
+		}
+		input.score{
+			margin-right: 90px;
+			margin-top:20px;
+			height: 75px;
+			font-size: 65px;
+			width: 200px;
+			overflow: hidden;
+		}
 		&.left{
 			float: left;
 		}
 		&.right{
 			float: right;
+			input{
+				color: white;
+			}
 		}
 	}
 }
@@ -190,17 +258,19 @@ button.start{
 	left: 45px;
 	transform: translateX(-50%) translateY(30%);
 	width: 58px;
+	width: 48px;
 	height: 87px;
+	height: 72px;
 	z-index: 3;
 	//border-radius: 50%;
 	//background: red;
 
 }
 #playerOne{
-	background: url("./img/playerOne.png");
+	background: url("./img/playerOne.png") no-repeat center center / contain;
 }
 #playerTwo{
-	background: url("./img/playerTwo.png");
+	background: url("./img/playerTwo.png") no-repeat center center / contain;
 }
 
 .pieceEffect-enter {
@@ -217,3 +287,296 @@ button.start{
   opacity: 0;
   transition: opacity 200ms;
 }
+
+.wrapper-jeton{
+	margin-top: 120px;
+	margin-left: 30px;
+	width: 210px;
+	.jeton{
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		box-shadow: 3px 6px 15px 0px rgba(0,0,0,0.5);
+		margin-top: 25px;
+		&.blue{
+			background-color: #1cbbf6;
+		}
+		&.green{
+			background-color: #00c501;
+		}
+		&.yellow{
+			background-color: #ff3401;
+		}
+		&.orange{
+			background-color: #ff7b00;
+		}
+		&.pink{
+			background-color: #ff4db9;
+		}
+		&.darkgreen{
+			background-color: #00582d;
+		}
+		&.purple{
+			background-color: #8500ff;
+		}
+		&.red{
+			background-color: #8e0000;
+		}
+		background: url("./img/jeton.png")  no-repeat center;
+		input{
+			margin-top: 10px;
+			margin-left: 80px;
+			width: 140px;
+			border: 2px dashed black;
+			background: transparent;
+			height: 40px;
+		}
+	}
+}
+
+
+		.wrapper-dice.separate{
+			#dice1{
+				left: -30%;
+			}
+			#dice2{
+				right: -30%;
+			}
+		}
+
+
+		$dice_size:66.6px;
+		$dot_size:13.3px;
+		$factor:1.5;
+        .diceWrap {
+            position: absolute;
+            transform-style: preserve-3d;
+            width: $dice_size;
+            height: $dice_size;
+            top: 35%;
+			&#dice1{
+				transition: left 0.5s;
+            	left: 20%;
+			}
+			&#dice2{
+				transition: right 0.5s;
+            	right: 20%;
+			}
+        }
+
+        .diceWrap>.dice {
+            width: $dice_size;
+            height: $dice_size;
+            border-radius: 10px;
+            position: absolute;
+            background-color: #290109;
+            box-shadow: #ff0049 0px 0px 10px 0px inset;
+        }
+
+        .dice.dice1 {
+            transform: translateZ(50px/$factor);
+        }
+
+        .dice.dice1.inner {
+            transform: translateZ(49px/$factor);
+        }
+
+        .dice.dice2 {
+			transform: rotateX(-180deg) translateZ(50px/$factor);
+        }
+
+        .dice.dice2.inner {
+            transform: rotateX(-180deg) translateZ(24px/$factor);
+        }
+
+        .dice.dice3 {
+            transform: rotateX(90deg) translateZ(50px/$factor);
+        }
+
+        .dice.dice3.inner {
+            transform: rotateX(90deg) translateZ(49px/$factor);
+        }
+
+        .dice.dice4 {
+            transform: rotateX(-90deg) translateZ(50px/$factor);
+        }
+
+        .dice.dice4.inner {
+            transform: rotateX(-90deg) translateZ(49px/$factor);
+        }
+
+        .dice.dice5 {
+            transform: rotateY(90deg) translateZ(50px/$factor);
+        }
+
+        .dice.dice5.inner {
+            transform: rotateY(90deg) translateZ(49px/$factor);
+        }
+
+        .dice.dice6 {
+            transform: rotateY(-90deg) translateZ(50px/$factor);
+        }
+
+        .dice.dice6.inner {
+            transform: rotateY(-90deg) translateZ(49px/$factor);
+        }
+
+        .diceWrap>.dice>.dot {
+            position: absolute;
+            width: $dot_size;
+            height: $dot_size;
+            border-radius: 50%;
+        }
+
+        .diceWrap>.dice1>.dot {
+            left: 50%;
+            top: 50%;
+            margin-left: -$dot_size/2;
+            margin-top: -$dot_size/2;
+            background-color: red;
+        }
+
+        .diceWrap>.dice2>.dot {
+            background-color: orange;
+        }
+
+        .diceWrap>.dice2>.dot:nth-child(1) {
+            left: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice2>.dot:nth-child(2) {
+            right: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice3>.dot {
+            background-color: yellow;
+        }
+
+        .diceWrap>.dice3>.dot:nth-child(1) {
+            left: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice3>.dot:nth-child(2) {
+            left: 50%;
+            top: 50%;
+            margin-left: -$dot_size/2;
+            margin-top: -$dot_size/2;
+        }
+
+        .diceWrap>.dice3>.dot:nth-child(3) {
+            right: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice4>.dot {
+            background-color: green;
+        }
+
+        .diceWrap>.dice4>.dot:nth-child(1) {
+            left: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice4>.dot:nth-child(2) {
+            left: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice4>.dot:nth-child(3) {
+            right: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice4>.dot:nth-child(4) {
+            right: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice5>.dot {
+            background-color: greenyellow;
+        }
+
+        .diceWrap>.dice5>.dot:nth-child(1) {
+            left: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice5>.dot:nth-child(2) {
+            left: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice5>.dot:nth-child(3) {
+            left: 50%;
+            top: 50%;
+            margin-left: -$dot_size/2;
+            margin-top: -$dot_size/2;
+        }
+
+        .diceWrap>.dice5>.dot:nth-child(4) {
+            right: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice5>.dot:nth-child(5) {
+            right: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice6>.dot {
+            background-color: purple;
+        }
+
+        .diceWrap>.dice6>.dot:nth-child(1) {
+            left: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice6>.dot:nth-child(2) {
+            left: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.dice6>.dot:nth-child(3) {
+            left: 5%;
+            top: 50%;
+            margin-top: -$dot_size/2;
+        }
+
+        .diceWrap>.dice6>.dot:nth-child(4) {
+            right: 5%;
+            top: 5%;
+        }
+
+        .diceWrap>.dice6>.dot:nth-child(5) {
+            right: 5%;
+            top: 50%;
+            margin-top: -$dot_size/2;
+        }
+
+        .diceWrap>.dice6>.dot:nth-child(6) {
+            right: 5%;
+            bottom: 5%;
+        }
+
+        .diceWrap>.cover,
+        .diceWrap>.inner {
+            background: rgb(65, 65, 65);
+            box-shadow: none;
+        }
+
+        .diceWrap>.cover {
+            border-radius: 0;
+            transform: translateZ(0px);
+        }
+
+        .diceWrap>.cover.x {
+            transform: rotateY(90deg);
+        }
+
+        .diceWrap>.cover.z {
+            transform: rotateX(90deg);
+        }

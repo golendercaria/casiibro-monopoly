@@ -4,9 +4,9 @@ import Card from './Card.js'
 import Dice from './Dice.js'
 import Versus from './Versus.js';
 import Pieces from './Pieces.js';
-import Rules from './Rules.js';
+//import Rules from './Rules.js';
 
-import { TimelineMax, TweenMax } from 'gsap';
+import gsap from 'gsap';
 
 class Plateau extends Component {
 
@@ -19,36 +19,36 @@ class Plateau extends Component {
 				name: "",
 				walk: 0,
 				position: 0,
-				ref: createRef()
+				ref: createRef(),
+				score: 0,
+				inPrison: false
 			},
 			playerTwo: {
 				display: "right",
 				name: "",
 				walk: 0,
 				position: 0,
-				ref: createRef()
+				ref: createRef(),
+				score: 0,
+				inPrison: false
 			}
 		},
 		whoIsTurn: "playerOne",
+		currentGame: null,
+		pieceIsMoving:false
 	}
-
-	//let options = JSON.parse(localStorage.getItem("tetris_options"))
-
-	/*
-	componentWillUnmount() {
-		localStorage.setItem("tetris_options", JSON.stringify(this.state.options))
-		window.removeEventListener("keydown", this.keydownActions)
-	}*/
 
 	savePartie = () => { 
 		let data = {
 			playerOne: {
 				name:this.state.players.playerOne.name,
-				position:this.state.players.playerOne.position,
+				position: this.state.players.playerOne.position,
+				score: this.state.players.playerOne.score,
 			},
 			playerTwo: {
 				name:this.state.players.playerTwo.name,
-				position:this.state.players.playerTwo.position,
+				position: this.state.players.playerTwo.position,
+				score: this.state.players.playerTwo.score,
 			},
 			whoIsTurn: this.state.whoIsTurn,
 			isStart:this.state.isStart
@@ -63,19 +63,21 @@ class Plateau extends Component {
 		//console.log(data)
 		if (data !== null) { 
 
-			console.log("RESTORATION");
-
 			//get player one
 			const playerOne = this.state.players["playerOne"]
 			playerOne.name = data.playerOne.name
 			playerOne.position = data.playerOne.position
+			//playerOne.position = 30
+			playerOne.score = data.playerOne.score
+			playerOne.inPrison = data.playerOne.inPrison
 
 			//get player two
 			const playerTwo = this.state.players["playerTwo"]
 			playerTwo.name = data.playerTwo.name
 			playerTwo.position = data.playerTwo.position
-
-			console.log("who is turn ", data.whoIsTurn)
+			//playerTwo.position = playerOne.position 
+			playerTwo.score = data.playerTwo.score
+			playerTwo.inPrison = data.playerTwo.inPrison
 
 			this.setState({
 				isStart: data.isStart,
@@ -86,13 +88,13 @@ class Plateau extends Component {
 				}
 			}, () => {
 				//repositionne les pieces
-				if (playerOne.position != 0) {
+				if (playerOne.position !== 0) {
 					let [ bottom, left ] = [...this.getLeftAndBottomByPosition(playerOne.position - 1)]
-					TweenMax.to(playerOne.ref.current, 0, { bottom: bottom, left: left })
+					gsap.to(playerOne.ref.current, { bottom: bottom, left: left, duration:0 })
 				}
-				if (playerTwo.position != 0) {
+				if (playerTwo.position !== 0) {
 					let [ bottom, left ] = [...this.getLeftAndBottomByPosition(playerTwo.position - 1)]
-					TweenMax.to(playerTwo.ref.current, 0, { bottom: bottom, left: left })
+					gsap.to(playerTwo.ref.current, { bottom: bottom, left: left, duration:0 })
 				}
 			})
 		}
@@ -114,34 +116,35 @@ class Plateau extends Component {
 		}
 
 		for (let i = 0; i < 40; i++) {
-			if (cards[i] === undefined) {
 
-				let color = null
-				if (i < 5) {
-					color = "blue"
-				} else if (i > 5 && i < 10) {
-					color = "green"
-				} else if (i > 10 && i < 15) {
-					color = "yellow"
-				} else if (i > 15 && i < 20) {
-					color = "orange"
-				} else if (i > 20 && i < 25) {
-					color = "purple"
-				} else if (i > 25 && i < 30) {
-					color = "darkgreen"
-				} else if (i > 30 && i < 35) {
-					color = "darkblue"
-				} else if (i > 35 && i < 40) {
-					color = "brown"
-				}
-
+			if (cards[i] === undefined ) {
 				cards[i] = {
 					type: "game",
-					game: "test",
-					color: color,
+					game: "",
 					position: i
 				}
 			}
+
+			let color = null
+			if (i < 5) {
+				color = "blue"
+			} else if (i > 5 && i < 10) {
+				color = "green"
+			} else if (i > 10 && i < 15) {
+				color = "yellow"
+			} else if (i > 15 && i < 20) {
+				color = "orange"
+			} else if (i > 20 && i < 25) {
+				color = "purple"
+			} else if (i > 25 && i < 30) {
+				color = "darkgreen"
+			} else if (i > 30 && i < 35) {
+				color = "darkblue"
+			} else if (i > 35 && i < 40) {
+				color = "red"
+			}
+
+			cards[i].color = color
 		}
 
 		this.setState({ cards })
@@ -153,9 +156,17 @@ class Plateau extends Component {
 		this.setState({ players });
 	}
 
+	updatePlayerScore = (player, score) => { 
+		const players = this.state.players
+		players[player].score = score
+		this.setState({ players }, () => { 
+			this.savePartie()
+		});
+	}
+
 	startGame() {
 		if (this.state.players.playerOne.name === "" || this.state.players.playerTwo.name === "") {
-			alert("Player is missing");
+		//	alert("Player is missing");
 		}
 
 		//affiche dice
@@ -166,6 +177,10 @@ class Plateau extends Component {
 
 		let bottom = 0;
 		let left = 0;
+		
+
+		//console.log("getLeftAndBottomByPosition");
+		//console.log(position)
 
 		if (position >= 0 && position <= 9) {
 			bottom = (position + 1) * 90 + 45
@@ -181,6 +196,7 @@ class Plateau extends Component {
 			left = (40 - position) * 90 - 45
 		}
 		
+
 		return [bottom, left]
 	}
 
@@ -190,29 +206,33 @@ class Plateau extends Component {
 
 	movePiece = (refToMove, player, nbrMove, maxMove) => {
 
-
-		console.log("position :", player.position)
-
 		if (player.position >= 40) {
 			player.position = 0
 		}
 
 		let [ bottom, left ] = [...this.getLeftAndBottomByPosition(player.position)]
 		
-		const tl = new TimelineMax();
+		const tl = gsap.timeline();
 
+		let scaleFactor = 1.2 //1.2
+		let animationBeginTime = .3 //.3
+		let animationOutTime = .25 //.25
+		
+
+
+		
 		if (player.position >= 0 && player.position <= 9) {
-			tl.to(refToMove, .1, { bottom: bottom - 45, left: left, scale: 2 });
-			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
+			tl.to(refToMove, { bottom: bottom + 45, left: left, scale: scaleFactor, duration:animationBeginTime });
+			tl.to(refToMove, { bottom: bottom, left: left, scale: 1, duration: animationOutTime });
 		} else if (player.position > 9 && player.position <= 19) {
-			tl.to(refToMove, .1, { bottom: bottom, left: left - 45, scale: 2 });
-			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
+			tl.to(refToMove, { bottom: bottom + 25 , left: left - 35, scale: scaleFactor, duration:animationBeginTime });
+			tl.to(refToMove, { bottom: bottom, left: left, scale: 1, duration: animationOutTime });
 		} else if (player.position > 19 && player.position <= 29) {
-			tl.to(refToMove, .1, { bottom: bottom + 45, left: left, scale: 2 });
-			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
+			tl.to(refToMove, { bottom: bottom + 20, left: left, scale: scaleFactor, duration:animationBeginTime });
+			tl.to(refToMove, { bottom: bottom, left: left, scale: 1, duration: animationOutTime });
 		} else if (player.position > 29) { 
-			tl.to(refToMove, .1, { bottom: bottom, left: left + 45, scale: 2 });
-			tl.to(refToMove, .2, { bottom: bottom, left: left, scale: 1 });
+			tl.to(refToMove, { bottom: bottom + 45, left: left + 25, scale: scaleFactor, duration:animationBeginTime });
+			tl.to(refToMove, { bottom: bottom, left: left, scale: 1, duration: animationOutTime });
 		}
 	
 		//if( player.position )
@@ -225,29 +245,81 @@ class Plateau extends Component {
 			tl.eventCallback("onComplete", this.movePiece, [refToMove, player, nbrMove, maxMove]);
 		} else {
 			let whoIsTurn = ""
-			if (this.state.whoIsTurn == "playerOne") {
-				whoIsTurn = "playerTwo"
+			let nextPlayer = ""
+
+			//potential next player
+			if (this.state.whoIsTurn === "playerOne") {
+				nextPlayer = "playerTwo"
 			} else {
-				whoIsTurn = "playerOne"
+				nextPlayer = "playerOne"
 			}
 
-			console.log(players)
+			//s'il n'est pas en prison inversion
+			if (!players[nextPlayer].inPrison) {
+				whoIsTurn = nextPlayer
+			} else { 
+				//le joueur courant reste en prison
+				whoIsTurn = this.state.whoIsTurn
+				//sort le joueur de prison
+				players[nextPlayer].inPrison = false
+			}
 
-			this.setState({ players, whoIsTurn }, () => { 
+			//pour prison
+			if (player.position === 10 || player.position === 30) {
+				players[this.state.whoIsTurn].inPrison = true
+				//c'est forcement au prochain joueur de joueur (cas de deux personnes en prison)
+				if (this.state.whoIsTurn === "playerOne") {
+					whoIsTurn = "playerTwo"
+				} else {
+					whoIsTurn = "playerOne"
+				}
+			} else { 
+				players[this.state.whoIsTurn].inPrison = false
+			}
+	
+			//case depart
+			if (player.position === 40) { 
+				player.position = 0
+			}
+
+			let currentGame = ""	
+			if (defaultCases[player.position].type === "chance") {
+				currentGame = "card_chance.jpg"
+			} else if (defaultCases[player.position].type === "prison") {
+				currentGame = "card_prison.jpg"
+			} else { 
+				currentGame = defaultCases[player.position].game
+			}
+
+			this.setState({ players, whoIsTurn, currentGame, pieceIsMoving: "finish" }, () => { 
 				this.savePartie()
 			})
 		}
 	}
 
-	movePlayer = (number) => { 
+	movePlayer = (number, is_double) => { 
 
-		console.clear()
+		//console.log("calling")
+		//console.clear()
 		
 		const player = this.state.players[this.state.whoIsTurn]
 		let refToMove = player.ref.current
 
-		this.movePiece(refToMove, player, 1, number);
+		this.setState({ pieceIsMoving: true }, () => { 
+			this.movePiece(refToMove, player, 1, number);
+		})
+
+		
+		/*if (this.state.whoIsTurn == "playerOne") {
+			this.movePiece(refToMove, player, 1, number, is_double);
+		} else { 
+			this.movePiece(refToMove, player, 1, 6, is_double);
+		}*/
 		//this.movePiece(refToMove, player, 1, 43);
+	}
+
+	liberateDice = () => { 
+		this.setState({pieceIsMoving:false})
 	}
 
 
@@ -260,15 +332,16 @@ class Plateau extends Component {
 		}
 		
 		return (
-			<div class="monopoly">
+			<div className="monopoly">
 				
-				<Rules />
+				{/*<Rules />*/}
 
 				<div id="plateau" ref={this.maref}>
 
 					<Versus
 						players={this.state.players}
-						updatePlayerName={this.updatePlayerName} />
+						updatePlayerName={this.updatePlayerName}
+						updatePlayerScore={this.updatePlayerScore} />
 
 					{
 						this.state.cards.map(
@@ -276,7 +349,9 @@ class Plateau extends Component {
 								//console.log(card)
 								return <Card
 									key={"card_" + key}
-									properties={card} />
+									properties={card}
+									positionPlayerOne={this.state.players.playerOne.position}
+									positionPlayerTwo={this.state.players.playerTwo.position} />
 							}
 						)	
 					}
@@ -284,7 +359,11 @@ class Plateau extends Component {
 					{
 						this.state.isStart
 							?
-								<Dice movePlayer={this.movePlayer} />						
+							<Dice
+								movePlayer={this.movePlayer}
+								currentGame={this.state.currentGame}
+								pieceIsMoving={this.state.pieceIsMoving}
+								liberateDice={this.liberateDice} />						
 							:
 							<button className="start" onClick={() => this.startGame()}>Start</button>
 					}

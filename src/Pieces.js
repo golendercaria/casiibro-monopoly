@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Piece from './Piece';
 
 class Pieces extends Component{
 
 	render() { 
-
 
 		return (
 			<div className="pieces">
@@ -17,7 +15,7 @@ class Pieces extends Component{
 									ref={this.props.players[player].ref}
 									id={player}
 									className="piece"
-									key={"piece-" + key}>{this.props.players[ player ].name}</div>
+									key={"piece-" + key}>{/*this.props.players[ player ].name*/}</div>
 							)
 						}
 					)

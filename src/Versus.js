@@ -13,7 +13,8 @@ class Versus extends Component{
 							return <Player
 								key={"player-" + key}
 								player={ player }
-								updatePlayerName={ this.props.updatePlayerName }
+								updatePlayerName={this.props.updatePlayerName}
+								updatePlayerScore={this.props.updatePlayerScore}
 								properties={this.props.players[player]} />
 						}
 					)

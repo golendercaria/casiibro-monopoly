@@ -10,14 +10,22 @@ class Player extends Component{
 
 		//className={this.props.players[player].position}
 		
-		let { display, name } = this.props.properties
+		let { display, name, score } = this.props.properties
 
 		return (
 			<form className={"player " + display}>
 				<input
+					className="name"
 					type="text"
 					value={name}
 					onChange={(event) => this.props.updatePlayerName(this.props.player, event.target.value)} />
+			
+				<input
+					className="score"
+					type="text"
+					value={score}
+					onChange={(event) => this.props.updatePlayerScore(this.props.player, event.target.value)} />
+			
 			</form>
 		)
 
