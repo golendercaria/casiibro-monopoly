@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 
 //const images = require.context('./../public/images', true);
 
+
+
 class Card extends Component{
 
 	render() { 

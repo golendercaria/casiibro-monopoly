@@ -1,0 +1,51 @@
+Monopoly casiibro
+=================
+
+Préparation des jeux/images :
+-----------------------------
+Le dossier "imagesGames" doit contenir au minimum 40 jeux pour fonctionner.
+Les jeux doivent être nommé par ordre (important) numérique avec l'extention jpg en commencent par 1
+Exemple : 
+1.jpg
+2.jpg
+3.jpg
+etc.. il n'y a pas de limite
+
+Recommandation : Les images doivent faire 500x500 et faire un poids de +/- 50ko
+
+La grille de départ correspond au 32 premier fichier :
+La case 0 est la case de départ
+La case 1 est le jeu 1.jpg -> modifiable
+La case 2 est le jeu 2.jpg -> modifiable
+La case 3 est le jeu 3.jpg -> modifiable
+La case 4 est le jeu 4.jpg -> modifiable
+La case 5 est la case chance
+La case 6 est le jeu 5.jpg -> modifiable
+
+De cette manière il est possible d'enlever/modifier un/plusieurs jeu(x) 
+
+Préparation du jeu :
+====================
+Dans le module règle, il est posssible d'encoder des montants et des nombres de partie.
+Dans le module versus il est possible d'encoder un nom de joueur et une valeur pour chaque participant.
+
+Fonctionnement du jeu : 
+=======================
+Lors du commencement de la partie, le premier joueur (or => à gauche sur le cadran versus) doit cliquer sur "Start", puis cliquer sur l'un des dés, dès lors, sont pion avance en fonction du nombre de case qui on été générer et en fin de déplacement le jeu est affiché.
+Au tout du second joueur. Il doit cliquer sur la case centrale ou l'imag du jeu est apparu pour faire revenir les dés. Il clique sur l'un des dés et de la même manière que le joeur un, après sont déplacement un jeu va être choisi.
+
+Lorsque le dé est double il ne se passe rien (pas de tur gratuit).
+
+Lorsqu'un joueur va en prison, il passera sont prochain tour. Si les deux joueurs vont en prison l'un à la suite de l'autre, ce cas est gérer et le programme choisira le joueur qui devra normalement jouer.
+
+Lorsqu'un joueur tombe/franchi la case de départ, l'ensemble des jeux du plateau est changés de manière aléatoire.
+
+Cache :
+=======
+- Système de cache (mémoire) : A chaque encodage, déplacement, les pions et les textes et le plateau est sauvegardé. C'est à dire que si il est lancé dans le même navigateur, alors le système est capable de restauré les possitions et valeur.
+	- Il y a un bouton sur la plateau "Vider le cache du jeu" qui permet de réinitialisé le jeu (sauf les règles).
+	- Le cache n'à pas de limite de temps
+ 
+Problème ?
+==========
+Si le jeu ne ce lance pas ou reste bloqué, essayer de le lancer dans un autre navigateur ou navigation privé.

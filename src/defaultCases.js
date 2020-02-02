@@ -6,22 +6,22 @@ export default [
 	{
 		position: 1,
 		type:"game",
-		game:"fat_rabbit.png"
+		game:"1.jpg"
 	},
 	{
 		position: 2,
 		type:"game",
-		game:"bigbot_crew.png"
+		game:"2.jpg"
 	},
 	{
 		position: 3,
 		type:"game",
-		game:"razor_shark.png"
+		game:"3.jpg"
 	},
 	{
 		position: 4,
 		type:"game",
-		game:"fatsanta.png"
+		game:"4.jpg"
 	},
 	{
 		position: 5,
@@ -30,22 +30,22 @@ export default [
 	{
 		position: 6,
 		type:"game",
-		game:"tigers_glory.png"
+		game:"5.jpg"
 	},
 	{
 		position: 7,
 		type:"game",
-		game:"jammin_jars.png"
+		game:"6.jpg"
 	},
 	{
 		position: 8,
 		type:"game",
-		game:"santa_christmass.png"
+		game:"7.jpg"
 	},
 	{
 		position: 9,
 		type:"game",
-		game:"honey_rush.png"
+		game:"8.jpg"
 	},
 	{
 		position: 10,
@@ -54,22 +54,22 @@ export default [
 	{
 		position: 11,
 		type:"game",
-		game:"spinions_beach_party.png"
+		game:"9.jpg"
 	},
 	{
 		position: 12,
 		type:"game",
-		game:"dead_or_Alive.png"
+		game:"10.jpg"
 	},
 	{
 		position: 13,
 		type:"game",
-		game:"vikings.png"
+		game:"11.jpg"
 	},
 	{
 		position: 14,
 		type:"game",
-		game:"mighty_arthur.png"
+		game:"12.jpg"
 	},
 	{
 		position: 15,
@@ -78,22 +78,22 @@ export default [
 	{
 		position: 16,
 		type:"game",
-		game:"chicjken_escape.png"
+		game:"13.jpg"
 	},
 	{
 		position: 17,
 		type:"game",
-		game:"tiki_tumble.png"
+		game:"14.jpg"
 	},
 	{
 		position: 18,
 		type:"game",
-		game:"mustang_gold.png"
+		game:"15.jpg"
 	},
 	{
 		position: 19,
 		type:"game",
-		game:"pekin_luck.png"
+		game:"16.jpg"
 	},
 	{
 		position: 20,
@@ -102,22 +102,22 @@ export default [
 	{
 		position: 21,
 		type:"game",
-		game:"madame_destiny.png"
+		game:"17.jpg"
 	},
 	{
 		position: 22,
 		type:"game",
-		game:"hugos_adeventure.png"
+		game:"18.jpg"
 	},
 	{
 		position: 23,
 		type:"game",
-		game:"tom_of_madness.png"
+		game:"19.jpg"
 	},
 	{
 		position: 24,
 		type:"game",
-		game:"viking_clash.png"
+		game:"20.jpg"
 	},
 	{
 		position: 25,
@@ -126,22 +126,22 @@ export default [
 	{
 		position: 26,
 		type:"game",
-		game:"wolf_gold.png"
+		game:"21.jpg"
 	},
 	{
 		position: 27,
 		type:"game",
-		game:"the_dog_house.png"
+		game:"22.jpg"
 	},
 	{
 		position: 28,
 		type:"game",
-		game:"reactoonz.png"
+		game:"23.jpg"
 	},
 	{
 		position: 29,
 		type:"game",
-		game:"pirate_gold.png"
+		game:"24.jpg"
 	},
 	{
 		position: 30,
@@ -150,22 +150,22 @@ export default [
 	{
 		position: 31,
 		type:"game",
-		game:"lost_relics.png"
+		game:"25.jpg"
 	},
 	{
 		position: 32,
 		type:"game",
-		game:"da_vinci.png"
+		game:"26.jpg"
 	},
 	{
 		position: 33,
 		type:"game",
-		game:"street_magic.png"
+		game:"27.jpg"
 	},
 	{
 		position: 34,
 		type:"game",
-		game:"extra_juicy.png"
+		game:"28.jpg"
 	},
 	{
 		position: 35,
@@ -174,21 +174,21 @@ export default [
 	{
 		position: 36,
 		type:"game",
-		game:"sweet_bonanza.png"
+		game:"29.jpg"
 	},
 	{
 		position: 37,
 		type:"game",
-		game:"sword_grail.png"
+		game:"30.jpg"
 	},
 	{
 		position: 38,
 		type:"game",
-		game:"rise_of_merlin.png"
+		game:"31.jpg"
 	},
 	{
 		position: 39,
 		type:"game",
-		game:"book_of_dead.png"
+		game:"32.jpg"
 	},
 ]

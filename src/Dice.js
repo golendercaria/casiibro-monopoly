@@ -112,8 +112,7 @@ class Dice extends Component{
 		let url_img = null
 		//console.log(process.env)
 		if (process.env.NODE_ENV === "development") {
-			url_img = "../public/imagesGames/" + game
-			url_img = process.env.PUBLIC_URL + "/imagesGames/" + game
+			url_img = "/imagesGames/" + game
 		} else { 
 			url_img = process.env.PUBLIC_URL + "/imagesGames/" + game
 		}

@@ -8,11 +8,27 @@ import Rules from './Rules.js';
 
 import gsap from 'gsap';
 
+function imageExists(image_url){
+    var http = new XMLHttpRequest();
+    http.open('HEAD', image_url, false);
+    http.send();
+    return http.status != 404;
+}
+
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
 class Plateau extends Component {
 
 	state = {
 		isStart: false,
 		cards: null,
+		numberOfGame: 0,
 		players: {
 			playerOne: {
 				display: "left",
@@ -52,10 +68,16 @@ class Plateau extends Component {
 				score: this.state.players.playerTwo.score,
 			},
 			whoIsTurn: this.state.whoIsTurn,
-			isStart:this.state.isStart
+			isStart: this.state.isStart,
+			cards: this.state.cards
 		}
 
 		localStorage.setItem("monopoly_data", JSON.stringify(data))
+	}
+
+	cleanCacheGame = () => { 
+		localStorage.removeItem("monopoly_data")
+		window.location.reload()
 	}
 
 	restorePartie = () => {
@@ -68,7 +90,7 @@ class Plateau extends Component {
 			const playerOne = this.state.players["playerOne"]
 			playerOne.name = data.playerOne.name
 			playerOne.position = data.playerOne.position
-			//playerOne.position = 30
+			//playerOne.position = 39
 			playerOne.score = data.playerOne.score
 			playerOne.inPrison = data.playerOne.inPrison
 
@@ -76,7 +98,7 @@ class Plateau extends Component {
 			const playerTwo = this.state.players["playerTwo"]
 			playerTwo.name = data.playerTwo.name
 			playerTwo.position = data.playerTwo.position
-			//playerTwo.position = playerOne.position 
+			//playerTwo.position = 35 
 			playerTwo.score = data.playerTwo.score
 			playerTwo.inPrison = data.playerTwo.inPrison
 
@@ -86,7 +108,8 @@ class Plateau extends Component {
 				players: {
 					playerOne,
 					playerTwo
-				}
+				},
+				cards: data.cards
 			}, () => {
 				//repositionne les pieces
 				if (playerOne.position !== 0) {
@@ -111,6 +134,25 @@ class Plateau extends Component {
 	//merge default card with random card
 	prepareCard() {
 
+		//check if image exist
+		let imageExist = true;
+		let idImage = 1;
+		while (imageExist) { 
+			if (imageExists('/imagesGames/' + idImage + '.jpg')) {
+				idImage++;
+			} else { 
+				idImage--;
+				imageExist = false;
+			}
+		}
+
+		this.setState({ numberOfGame : idImage })
+
+		
+
+
+		//console.log(listOfImages)
+
 		let cards = []
 		for (let i in defaultCases) {
 			cards[defaultCases[i].position] = defaultCases[i]
@@ -121,7 +163,7 @@ class Plateau extends Component {
 			if (cards[i] === undefined ) {
 				cards[i] = {
 					type: "game",
-					game: "",
+					//game: "",
 					position: i
 				}
 			}
@@ -201,14 +243,40 @@ class Plateau extends Component {
 		return [bottom, left]
 	}
 
-	getBottomByPosition(position) { 
+	newCardsGenerator = () => { 
 
+	}
+
+	passingOnStart = () => { 
+		let cards = this.state.cards
+		//let newCards = this.newCardsGenerator()
+		let newGame = []
+		for (let i = 1; i <= this.state.numberOfGame; i++) {
+			newGame.push(i)
+		}
+		newGame = shuffle(newGame).slice(0,40)
+
+		cards.map((card) => { 
+			if (card.type !== "game") {
+				return card
+			} else { 
+				//console.log(card.position)
+				card.game = newGame[ card.position - 1 ] + ".jpg"
+				return card
+			}
+		})
+
+		return cards
 	}
 
 	movePiece = (refToMove, player, nbrMove, maxMove) => {
 
+		let cards = this.state.cards
+
 		if (player.position >= 40) {
+			console.log(player.position + "=> passing start")
 			player.position = 0
+			cards = this.passingOnStart()
 		}
 
 		let [ bottom, left ] = [...this.getLeftAndBottomByPosition(player.position)]
@@ -218,9 +286,6 @@ class Plateau extends Component {
 		let scaleFactor = 1.2 //1.2
 		let animationBeginTime = .3 //.3
 		let animationOutTime = .25 //.25
-		
-
-
 		
 		if (player.position >= 0 && player.position <= 9) {
 			tl.to(refToMove, { bottom: bottom + 45, left: left, scale: scaleFactor, duration:animationBeginTime });
@@ -241,7 +306,7 @@ class Plateau extends Component {
 		players[this.state.whoIsTurn].position++
 
 		if (nbrMove < maxMove) {
-			this.setState({ players })
+			this.setState({ players, cards })
 			nbrMove++
 			tl.eventCallback("onComplete", this.movePiece, [refToMove, player, nbrMove, maxMove]);
 		} else {
@@ -291,36 +356,24 @@ class Plateau extends Component {
 			} else if ( defaultCases[player.position].type === "start") { 
 				currentGame = "card_start.jpg"
 			}else { 
-				currentGame = defaultCases[player.position].game
+				currentGame = cards[player.position].game
 			}
 
 			let currentColor = defaultCases[player.position].color
 
-			this.setState({ players, whoIsTurn, currentGame, pieceIsMoving: "finish", currentColor }, () => { 
+			this.setState({ players, whoIsTurn, currentGame, pieceIsMoving: "finish", currentColor, cards }, () => { 
 				this.savePartie()
 			})
 		}
 	}
 
 	movePlayer = (number, is_double) => { 
-
-		//console.log("calling")
-		//console.clear()
-		
 		const player = this.state.players[this.state.whoIsTurn]
 		let refToMove = player.ref.current
 
 		this.setState({ pieceIsMoving: true }, () => { 
 			this.movePiece(refToMove, player, 1, number);
 		})
-
-		
-		/*if (this.state.whoIsTurn == "playerOne") {
-			this.movePiece(refToMove, player, 1, number, is_double);
-		} else { 
-			this.movePiece(refToMove, player, 1, 6, is_double);
-		}*/
-		//this.movePiece(refToMove, player, 1, 43);
 	}
 
 	liberateDice = () => { 
@@ -338,6 +391,8 @@ class Plateau extends Component {
 		
 		return (
 			<div className="monopoly">
+
+				<button id="resetGame" onClick={this.cleanCacheGame}>Vider le cache du jeu</button>
 				
 				{<Rules color={ this.state.currentColor }/>}
 
@@ -351,7 +406,6 @@ class Plateau extends Component {
 					{
 						this.state.cards.map(
 							(card, key) => { 
-								//console.log(card)
 								return <Card
 									key={"card_" + key}
 									properties={card}
@@ -370,7 +424,7 @@ class Plateau extends Component {
 								pieceIsMoving={this.state.pieceIsMoving}
 								liberateDice={this.liberateDice} />						
 							:
-							<button className="start" onClick={() => this.startGame()}>Start</button>
+							<button className="start" onClick={() => this.startGame()}></button>
 					}
 
 					{
