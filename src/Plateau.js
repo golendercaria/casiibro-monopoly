@@ -103,6 +103,10 @@ class Plateau extends Component {
 			playerTwo.score = data.playerTwo.score
 			playerTwo.inPrison = data.playerTwo.inPrison
 
+			if (typeof data.cards === "undefined") { 
+				this.cleanCacheGame()
+			}
+
 			this.setState({
 				isStart: data.isStart,
 				whoIsTurn: data.whoIsTurn,
@@ -130,7 +134,6 @@ class Plateau extends Component {
 		this.restorePartie()
 		this.checkNbrGame()
 	}
-
 
 	checkNbrGame = (id = 1) => { 
 		let imageData = new Image();
@@ -207,10 +210,7 @@ class Plateau extends Component {
 			cards[i].color = color
 		}
 
-		this.setState({ cards:cards }, () => { 
-			//console.log("definition des cards")
-			//console.log(cards)
-		})
+		this.setState({ cards })
 	}
 
 	updatePlayerName = (player, name) => {
@@ -307,7 +307,7 @@ class Plateau extends Component {
 		
 		const tl = gsap.timeline();
 
-		let scaleFactor = 2 //1.2
+		let scaleFactor = 1.2 //1.2
 		let animationBeginTime = .3 //.3
 		let animationOutTime = .25 //.25
 		
@@ -406,9 +406,6 @@ class Plateau extends Component {
 
 
 	render() {
-
-		//console.log(typeof this.state.cards)
-		//console.log(this.state.cards)
 
 		if (this.state.cards === null || typeof this.state.cards === "undefined") {
 			return (
