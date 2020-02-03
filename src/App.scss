@@ -341,7 +341,10 @@ button.start{
 			background-color: #00c501;
 		}
 		&.yellow{
-			background-color: #ff3401;
+			background-color: rgb(244, 244, 1);
+			.stack{
+				color: rgb(170, 170, 0);
+			}
 		}
 		&.orange{
 			background-color: #ff7b00;
@@ -382,6 +385,8 @@ button.start{
 				height: 40px;
 				padding-left: 10px;
 				font-size: 16px;
+				color: white;
+				font-weight: 600;
 			}
 		}
 	}

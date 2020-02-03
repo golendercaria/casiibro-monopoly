@@ -8,12 +8,13 @@ import Rules from './Rules.js';
 
 import gsap from 'gsap';
 
+/*
 function imageExists(image_url){
-    var http = new XMLHttpRequest();
+	var http = new XMLHttpRequest();
     http.open('HEAD', image_url, false);
     http.send();
-    return http.status != 404;
-}
+	return http.status != 404;
+}*/
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -28,7 +29,7 @@ class Plateau extends Component {
 	state = {
 		isStart: false,
 		cards: null,
-		numberOfGame: 0,
+		numberOfGame: 100,
 		players: {
 			playerOne: {
 				display: "left",
@@ -127,30 +128,46 @@ class Plateau extends Component {
 	componentDidMount() {
 		this.prepareCard()
 		this.restorePartie()
+		this.checkNbrGame()
 	}
 
 
+	checkNbrGame = (id = 1) => { 
+		let imageData = new Image();
+		imageData.onload = () => {
+			id++
+			this.checkNbrGame(id)
+		}
+		imageData.onerror = () => {
+			id--
+			this.setState({ numberOfGame: id }, () => { 
+				//console.log(id)
+			})
+		}
+		imageData.src = './imagesGames/' + id + '.jpg';
+	}
 	
 	//merge default card with random card
-	prepareCard() {
+	prepareCard = () => {
+
+		//console.log("initialisation du jeu")
+		//console.log(this.state.numberOfGame)
 
 		//check if image exist
-		let imageExist = true;
-		let idImage = 1;
-		while (imageExist) { 
-			if (imageExists('/imagesGames/' + idImage + '.jpg')) {
+		
+		/*while (imageExist) { 
+			if (imageExists('./imagesGames/' + idImage + '.jpg')) {
 				idImage++;
 			} else { 
 				idImage--;
 				imageExist = false;
 			}
-		}
+			if (idImage > 300) { 
+				ret
+			}
+		}*/
 
-		this.setState({ numberOfGame : idImage })
-
-		
-
-
+	
 		//console.log(listOfImages)
 
 		let cards = []
@@ -190,7 +207,10 @@ class Plateau extends Component {
 			cards[i].color = color
 		}
 
-		this.setState({ cards })
+		this.setState({ cards:cards }, () => { 
+			//console.log("definition des cards")
+			//console.log(cards)
+		})
 	}
 
 	updatePlayerName = (player, name) => {
@@ -273,17 +293,21 @@ class Plateau extends Component {
 
 		let cards = this.state.cards
 
-		if (player.position >= 40) {
-			console.log(player.position + "=> passing start")
-			player.position = 0
+		//passage sur la case départ
+		if (player.position >= 39) { 
 			cards = this.passingOnStart()
+		}
+		
+		if (player.position >= 40) {
+			//console.log(player.position + "=> passing start")
+			player.position = 0
 		}
 
 		let [ bottom, left ] = [...this.getLeftAndBottomByPosition(player.position)]
 		
 		const tl = gsap.timeline();
 
-		let scaleFactor = 1.2 //1.2
+		let scaleFactor = 2 //1.2
 		let animationBeginTime = .3 //.3
 		let animationOutTime = .25 //.25
 		
@@ -383,7 +407,10 @@ class Plateau extends Component {
 
 	render() {
 
-		if (this.state.cards == null) {
+		//console.log(typeof this.state.cards)
+		//console.log(this.state.cards)
+
+		if (this.state.cards === null || typeof this.state.cards === "undefined") {
 			return (
 				<div id="plateau">Loading</div>
 			)

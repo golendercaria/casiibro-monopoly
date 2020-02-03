@@ -67,6 +67,7 @@ class Dice extends Component{
 			} else if (rollingQty === 2) { 
 				this.setState({ rollingQty: 0, isRolling: false }, () => { 
 					let total_value = this.state.dice1Value + this.state.dice2Value
+					//this.props.movePlayer(20)
 					this.props.movePlayer(total_value)
 				})
 			}

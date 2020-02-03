@@ -4,6 +4,8 @@ import Player from './Player'
 class Versus extends Component{
 
 	render() { 
+					//console.log("players = ")
+					//console.log(this.props.players)
 
 		return (
 			<div className="wrapper-versus">

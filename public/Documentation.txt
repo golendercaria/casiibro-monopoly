@@ -49,3 +49,5 @@ Cache :
 Problème ?
 ==========
 Si le jeu ne ce lance pas ou reste bloqué, essayer de le lancer dans un autre navigateur ou navigation privé.
+
+Navigateur recommandé : Firefox dernière version
