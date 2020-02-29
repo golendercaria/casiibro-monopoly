@@ -92,6 +92,9 @@ class Dice extends Component{
 		let randomNumber_dice1 = Math.floor(Math.random() * (6)) + 1
 		let randomNumber_dice2 = Math.floor(Math.random() * (6)) + 1
 		
+		//randomNumber_dice1 = 20
+		//randomNumber_dice2 = 20
+		
 		if (this.state.isRolling === false && this.props.pieceIsMoving === false) {
 			this.setState({ isRolling: true, dice1Value: randomNumber_dice1, dice2Value: randomNumber_dice2 }, () => {
 				this.roll(this.state.dice1Ref.current, randomNumber_dice1)

@@ -296,11 +296,14 @@ class Plateau extends Component {
 		let cards = this.state.cards
 
 		//passage sur la case départ
-		if (player.position >= 39) { 
+		//console.log(player)
+		//console.log(player.position)
+		if (player.position === 39) { 
 			cards = this.passingOnStart()
 		}
 		
 		if (player.position >= 40) {
+			//console.log("reset")
 			//console.log(player.position + "=> passing start")
 			player.position = 0
 		}

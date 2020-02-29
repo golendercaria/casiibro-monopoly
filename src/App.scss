@@ -44,8 +44,8 @@ $size_card:85px;
 		&:after{
 			z-index: 3;
 			opacity: 0;
-			//transition: opacity 0.3;
-			//transition-delay: 0.4s;
+			transition: opacity 0.3;
+			transition-delay: 0.4s;
 		}
 		&.active:after{
 			opacity: 1;
@@ -236,6 +236,7 @@ $size_card:85px;
 			text-align: center;
 			margin-right: 65px;
 			margin-top: 20px;
+			outline: none;
 		}
 		input.score{
 			margin-right: 90px;
@@ -245,6 +246,7 @@ $size_card:85px;
 			width: 200px;
 			line-height: 1;
 			overflow: hidden;
+			outline: none;
 		}
 		&.left{
 			float: left;
@@ -261,6 +263,10 @@ $size_card:85px;
 	}
 	.right{
 		background: url("./img/player-argent.png") no-repeat center center;
+		margin-top: -7px;
+		input.name{
+			margin-top: 27px;
+		}
 	}
 }
 
@@ -268,7 +274,7 @@ button.start{
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
-	top: 770px;
+	top: 700px;
 	background: darkgreen;
 	border: 0;
 	font-size: 25px;
@@ -276,7 +282,7 @@ button.start{
 	background-size: cover;
 	width: 184px;
 	height: 85px;
-
+	outline: none;
 }
 
 #resetGame{
