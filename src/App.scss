@@ -13,10 +13,11 @@ body{
 }
 
 
+$size_card:85px;
 
 .card{
-	width: 90px;
-	height: 90px;
+	width: $size_card;
+	height: $size_card;
 
 	img{
 		width: 100%;
@@ -27,16 +28,18 @@ body{
 		//border:5px solid black;
 		&:before,&:after{
 			content: "";
-			width: 90px;
-			height: 90px;
+			width: $size_card;
+			height: $size_card;
 			position: absolute;
 			left: 0;
 			top: 0;
 			background: url("./img/card_cadre.png");
+			background-size: contain;
 		}
 		&:before{
 			z-index: 2;
 			background: url("./img/card_cadre.png");
+			background-size: contain;
 		}
 		&:after{
 			z-index: 3;
@@ -71,6 +74,9 @@ body{
 		&.color-red:after{
 			background: url("./img/over-red.png");
 		}
+		&:after{
+			background-size: contain !important;
+		}
 	}
 	&.type-start{
 		background: url("./img/card_start.jpg");
@@ -80,6 +86,9 @@ body{
 	}
 	&.type-prison{
 		background: url("./img/card_prison.jpg");
+	}
+	&.type-start, &.type-chance, &.type-prison{
+		background-size: cover;
 	}
 }
 
@@ -97,12 +106,13 @@ body{
 	position: relative;
 	float: right;
 	margin-right: 48px;
-	width: 11*90px;
-	height: 11*90px;
+	margin-top: 15px;
+	width: 11*$size_card;
+	height: 11*$size_card;
 	//background: rgba(50,50,50,1);
 	background:url("./img/element_plateau.png") no-repeat;
-	background-size: 970px 771px;
-	background-position: 0 150px;
+	background-size: 90%;
+	background-position: 37px 160px;
 	&:before{
 		content: "";
 		background:url("./img/halo.jpg") no-repeat center center;
@@ -148,24 +158,24 @@ body{
 			//0 to 10
 			&.position-#{$i}{
 				left: 0;
-				bottom: $i * 90px;
+				bottom: $i * $size_card;
 			}
 
 			//11 to 21
 			&.position-#{$i + 10}{
-				left: $i * 90px;
+				left: $i * $size_card;
 				top: 0;
 			}
 
 			//21 to 31
 			&.position-#{$i + 20}{
 				right: 0;
-				top: $i * 90px;
+				top: $i * $size_card;
 			}
 
 			//31 to 40
 			&.position-#{$i + 30}{
-				right: $i * 90px;
+				right: $i * $size_card;
 				bottom: 0;
 			}
 		}

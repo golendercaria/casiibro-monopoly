@@ -241,22 +241,24 @@ class Plateau extends Component {
 		let bottom = 0;
 		let left = 0;
 		
+		let cardSize = 85
+		let DemiCardSize = 85/2
 
 		//console.log("getLeftAndBottomByPosition");
 		//console.log(position)
 
 		if (position >= 0 && position <= 9) {
-			bottom = (position + 1) * 90 + 45
-			left = 45
+			bottom = (position + 1) * cardSize + DemiCardSize
+			left = DemiCardSize
 		} else if (position > 9 && position <= 19) {
-			bottom = 10 * 90 + 45
-			left = (position - 9) * 90 + 45
+			bottom = 10 * cardSize + DemiCardSize
+			left = (position - 9) * cardSize + DemiCardSize
 		} else if (position > 19 && position <= 29) {
-			bottom = (29 - position) * 90 + 45
-			left = 10 * 90 + 45
+			bottom = (29 - position) * cardSize + DemiCardSize
+			left = 10 * cardSize + DemiCardSize
 		} else if (position > 29) { 
-			bottom = 45
-			left = (40 - position) * 90 - 45
+			bottom = DemiCardSize
+			left = (40 - position) * cardSize - DemiCardSize
 		}
 		
 
