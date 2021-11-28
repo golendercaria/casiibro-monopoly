@@ -9,6 +9,7 @@ npm run build
 ```
 
 ## Demo URL
+(the game work on certain resolution).
 https://golendercaria.github.io/casiibro-monopoly/build/
 
 ## Screenshot
