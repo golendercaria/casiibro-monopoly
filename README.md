@@ -13,6 +13,6 @@ npm run build
 https://golendercaria.github.io/casiibro-monopoly/build/
 
 ## Screenshot
-![alt text](https://golendercaria.github.io/casiibro-monopoly/build/screenshot.jpg)
+![alt text](https://golendercaria.github.io/casiibro-monopoly/screenshot.jpg)
 
 Visite my website https://nouslesdevs.com and give me a power ;)
