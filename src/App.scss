@@ -213,12 +213,14 @@ $size_card:85px;
 .wrapper-versus{
 	position: absolute;
 	left: 50%;
-	transform: translateX(-50%);
+	//transform: translateX(-50%);
+	margin-left: -354px;
 	top: 150px;
 	width: 709px;
 	.player{
 		width: 328px;
 		height: 198px;
+		position: relative;
 		input{
 			background: transparent;
 			float: right;
@@ -248,13 +250,42 @@ $size_card:85px;
 			overflow: hidden;
 			outline: none;
 		}
+		input.calculatrice{
+			//position: absolute;
+			display: block;
+			transform: none;
+			right: 20px;
+			//bottom: 20px;
+			background: white;
+			color: black !important;
+			font-weight: 100;
+			font-size: 25px;
+			color: yellow;
+			position: fixed !important;
+			width: 220px;
+				padding: 10px !important;
+				height: auto;
+				background: green;
+				box-sizing: border-box;
+			
+		}
 		&.left{
 			float: left;
+			.calculatrice{
+				border: 2px solid yellow;
+				color: yellow !important;
+				top: 200px;
+			}
 		}
 		&.right{
 			float: right;
 			input{
 				color: white;
+			}
+			.calculatrice{
+				border: 2px solid white;
+				top: 300px;
+				color: white !important;
 			}
 		}
 	}
@@ -379,6 +410,7 @@ button.start{
 		}
 		background: url("./img/jeton.png")  no-repeat center;
 		input{
+			outline: none;
 			position: absolute;
 			&.stack{
 				border: 0;
@@ -387,7 +419,7 @@ button.start{
 				left: 16px;
 				top: 16px;
 				text-align: center;
-				font-size: 18px;
+				font-size: 24px;
 				font-weight: 600;
 				background: transparent;
 				color: white;
@@ -395,12 +427,12 @@ button.start{
 			&.parties{
 				margin-top: 10px;
 				margin-left: 80px;
-				width: 100px;
+				width: 130px;
 				border: 2px dashed black;
 				background: transparent;
 				height: 40px;
 				padding-left: 10px;
-				font-size: 16px;
+				font-size: 22px;
 				color: white;
 				font-weight: 600;
 			}

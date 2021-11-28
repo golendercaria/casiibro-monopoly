@@ -2,8 +2,25 @@ import React, { Component } from 'react';
 
 class Player extends Component{
 
+	
+	state = {
+		score:this.props.properties.score
+	}
+
 	updateName = event => { 
 		this.setState({ name: event.target.value });
+	}
+
+	calculatriceHanler = event => { 
+		let score = event.target.value	
+		score = score.replace(" ", "")
+		try {
+			let calculated_score = eval(score)
+			this.props.updatePlayerScore(this.props.player,calculated_score)
+		} catch (exception) { 
+
+		}
+		this.setState({score})
 	}
 
 	render() { 
@@ -25,7 +42,13 @@ class Player extends Component{
 					type="text"
 					value={score}
 					onChange={(event) => this.props.updatePlayerScore(this.props.player, event.target.value)} />
-			
+				<input
+					className="calculatrice"
+					type="text"
+					value={this.state.score}
+					onChange={this.calculatriceHanler} />
+				
+
 			</form>
 		)
 
